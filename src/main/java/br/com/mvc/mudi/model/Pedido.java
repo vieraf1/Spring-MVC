@@ -6,9 +6,11 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import br.com.mvc.mudi.model.enums.StatusPedidoEnum;
 
@@ -27,6 +29,13 @@ public class Pedido {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusPedidoEnum status;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
+
+	public Long getId() {
+		return id;
+	}
 
 	public String getNomeProduto() {
 		return nomeProduto;
@@ -84,4 +93,11 @@ public class Pedido {
 		this.status = status;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }
