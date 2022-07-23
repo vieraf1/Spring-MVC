@@ -1,5 +1,7 @@
 package br.com.mvc.mudi.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,28 +14,29 @@ import br.com.mvc.mudi.model.enums.StatusPedidoEnum;
 import br.com.mvc.mudi.repository.PedidoRepository;
 
 @Controller
-@RequestMapping("/home")
-public class HomeController {
-	
+@RequestMapping("usuario")
+public class UserController {
+
 	@Autowired
 	private PedidoRepository repositoy;
 	
-	@GetMapping
-	public String home(Model model) {
-		model.addAttribute("pedidos", repositoy.findAll());
-		return "home";
+	@GetMapping("pedido")
+	public String home(Model model, Principal principal) {
+		model.addAttribute("pedidos", repositoy.findByUserUsername(principal.getName()));
+		return "usuario/home";
 	}
 	
-	@GetMapping("/{status}")
-	public String porStatus(@PathVariable("status") String status, Model model) {
-		model.addAttribute("pedidos", repositoy.findByStatus(
-				StatusPedidoEnum.valueOf(status.toUpperCase())));
+	@GetMapping("pedido/{status}")
+	public String porStatus(@PathVariable("status") String status, Model model, Principal principal) {
+		model.addAttribute("pedidos", repositoy.findByStatusAndUser(
+				StatusPedidoEnum.valueOf(status.toUpperCase()), principal.getName()));
 		model.addAttribute("status", status);
-		return "home";
+		return "usuario/home";
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String onError() {
-		return "redirect:/home";
+		return "redirect:/usuario/home";
 	}
+	
 }
