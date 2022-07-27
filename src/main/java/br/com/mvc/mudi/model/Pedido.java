@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.mvc.mudi.model.enums.StatusPedidoEnum;
 
 @Entity
@@ -31,6 +33,7 @@ public class Pedido {
 	private StatusPedidoEnum status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private User user;
 
 	public Long getId() {
