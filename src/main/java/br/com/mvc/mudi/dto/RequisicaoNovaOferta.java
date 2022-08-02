@@ -53,6 +53,6 @@ public class RequisicaoNovaOferta {
 		oferta.setDataEntrega(LocalDate.parse(dataEntrega, formatter));
 		oferta.setValor(new BigDecimal(valor));
 		
-		return null;
+		return oferta;
 	}
 }
